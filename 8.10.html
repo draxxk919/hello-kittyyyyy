@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página Personal de Jimmy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      overflow: hidden;
+      position: relative;
+      background: #FDEEF4 url('hello_kitty_background.jpg') center no-repeat;
+      background-size: contain;
+      opacity: 0.8;
+    }
+
+    #inicio-container {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    #boton-inicio, .opcion-btn, .continuar-btn, #ayuda-btn, #carrusel-btn {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #f48fb1;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #saludo, #mensaje-emocion, #continuar {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    header {
+      background-color: rgba(248, 187, 208, 0.8);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header img {
+      max-width: 50px;
+      height: auto;
+    }
+
+    section {
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      height: 80vh;
+    }
+
+    #caja {
+      width: 200px;
+      height: 200px;
+      background-color: #4CAF50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border: 3px solid #388E3C;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #puzzle-container {
+      display: none;
+      margin: 2rem auto;
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      background-size: 300px 300px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .empty {
+      background: none;
+      border: none;
+      cursor: default;
+    }
+
+    #mensaje-rompecabezas {
+      font-size: 18px;
+      font-weight: bold;
+      color: #D32F2F;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    footer {
+      background-color: rgba(248, 187, 208, 0.8);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #cronometro {
+      font-size: 24px;
+      font-weight: bold;
+      color: #f48fb1;
+      margin-bottom: 1rem;
+    }
+
+    #ayuda-btn, #carrusel-btn {
+      display: none;
+    }
+
+    #mensaje-ayuda {
+      font-size: 16px;
+      font-style: italic;
+      color: #8E24AA;
+      margin-top: 10px;
+    }
+
+    #recuadro-fotos {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #recuadro-fotos img {
+      width: 100px;
+      margin: 10px;
+    }
+
+    #recuadro-fotos div {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="inicio-container">
+    <button id="boton-inicio">¿Estás lista?</button>
+  </div>
+
+  <div id="saludo" style="display: none;">
+    Hola Preyti, ¿cómo te sientes hoy?<br><br>
+    <button class="opcion-btn" data-emocion="bien">Bien</button>
+    <button class="opcion-btn" data-emocion="mal">Mal</button>
+    <button class="opcion-btn" data-emocion="triste">Triste</button>
+    <button class="opcion-btn" data-emocion="miedo">Siento miedo</button>
+    <button class="opcion-btn" data-emocion="enoja">Enoja</button>
+    <button class="opcion-btn" data-emocion="sorprendida">Sorprendida</button>
+  </div>
+
+  <div id="mensaje-emocion" style="display: none;"></div>
+  <div id="continuar" style="display: none;">
+    <button class="continuar-btn" id="continuar-btn">Continuar</button>
+  </div>
+
+  <div id="contenido" style="display:none; text-align: center;">
+    <header>
+      <h1>Hola, ¿Cómo estás?</h1>
+      <img src="hello_kitty.jpg" alt="Hello Kitty">
+    </header>
+
+    <section>
+      <div id="caja">¡Tócame!</div>
+      <div id="mensaje-rompecabezas">¡Onoooo! Apretaste muy fuerte la caja y la imagen se volvió en un rompecabezas. Ármalo para ver el contenido. ¡Suerte!</div>
+      <div id="cronometro">Tiempo restante: 3:00</div>
+      <div id="puzzle-container"></div>
+      <button id="ayuda-btn">Ayuda</button>
+      <div id="mensaje-ayuda" style="display:none;">
+        Si no puedes resolver el rompecabezas, aprieta este botón, pero que Jimmy no se de cuenta, esto es una "ayudita" shhhhhhhhhhhh🤐
+      </div>
+    </section>
+
+    <button id="carrusel-btn">Carrusel de Fotos</button>
+
+    <div id="recuadro-fotos">
+      <div>
+        <img src="foto1.jpg" alt="Foto 1">
+        <img src="foto2.jpg" alt="Foto 2">
+        <img src="foto3.jpg" alt="Foto 3">
+        <!-- Agregar más fotos según sea necesario -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Creado con cariño por Jimmy</p>
+  </footer>
+
+  <audio id="musica" src="tu_musica.mp3.mp3"></audio>
+
+  <script>
+    const botonInicio = document.getElementById("boton-inicio");
+    const musica = document.getElementById("musica");
+    const saludo = document.getElementById("saludo");
+    const mensaje = document.getElementById("mensaje-emocion");
+    const continuar = document.getElementById("continuar");
+    const contenido = document.getElementById("contenido");
+    const caja = document.getElementById("caja");
+    const mensajePuzzle = document.getElementById("mensaje-rompecabezas");
+    const puzzleContainer = document.getElementById("puzzle-container");
+    const cronometro = document.getElementById("cronometro");
+    const ayudaBtn = document.getElementById("ayuda-btn");
+    const mensajeAyuda = document.getElementById("mensaje-ayuda");
+    const carruselBtn = document.getElementById("carrusel-btn");
+    const recuadroFotos = document.getElementById("recuadro-fotos");
+
+    let tiempoRestante = 180; // 3 minutos en segundos
+
+    const mensajes = {
+      bien: "Preyti, me alegra muchísimo saber que estás bien. Que esa alegría ilumine tu día y contagie a todos los que te rodean. ¡Sigue brillando como siempre! 🌟",
+      mal: "🌟 Recuerda que incluso en los momentos más oscuros, hay luz al final del camino. Eres fuerte y esto también pasará. Aquí estoy si necesitas apoyo.",
+      triste: "Preyti, sé que hay momentos difíciles, pero quiero que sepas que no estás sola. Tómate tu tiempo, permítete sentir y recuerda que todo mejora con el tiempo. Estoy aquí para ti. ❤️ Espero que esta página te ayude a subir tu estado de ánimo.",
+      miedo: "Preyti, es normal sentir miedo, pero recuerda que eres fuerte y valiente. Da un paso a la vez, confía en ti misma, y todo saldrá bien. Estoy contigo en esto. 💪",
+      enoja: "Preyti, respira profundo y tómate un momento para ti. A veces, el enojo es una señal de que algo no está bien, pero estoy seguro de que encontrarás la manera de enfrentarlo con sabiduría. Estoy aquí si necesitas hablar. ✨",
+      sorprendida: "Preyti, a veces las sorpresas nos sacuden un poco, pero también nos enseñan a adaptarnos y crecer. Espero que sea una sorpresa que te deje una sonrisa en el rostro. 🌈"
+    };
+
+    const botonesTexto = {
+      bien: "Siguiente página",
+      mal: "Ya estoy mejor 💛",
+      triste: "Espero esto mejore tu estado de ánimo",
+      miedo: "Supera ese miedo, eres fuerte",
+      enoja: "Ya no estés enojada, mejor mira esto",
+      sorprendida: "Espero que la razón de tu sorpresa sea esta página"
+    };
+
+    botonInicio.addEventListener("click", () => {
+      musica.play();
+      musica.volume = 0.5;
+      document.getElementById("inicio-container").style.display = "none";
+      saludo.style.display = "block";
+      iniciarCronometro();
+    });
+
+    document.querySelectorAll(".opcion-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const emocion = btn.getAttribute("data-emocion");
+        saludo.style.display = "none";
+        mensaje.innerHTML = mensajes[emocion];
+        mensaje.style.display = "block";
+
+        const continuarBtn = document.getElementById("continuar-btn");
+        continuarBtn.textContent = botonesTexto[emocion];
+        continuar.style.display = "block";
+      });
+    });
+
+    document.getElementById("continuar-btn").addEventListener("click", () => {
+      mensaje.style.display = "none";
+      continuar.style.display = "none";
+      contenido.style.display = "block";
+    });
+
+    caja.addEventListener("click", () => {
+      caja.style.display = "none";
+      mensajePuzzle.style.display = "block";
+      puzzleContainer.style.display = "block";
+      crearRompecabezas("imagen.jpg", 3);
+    });
+
+    function crearRompecabezas(src, size) {
+      puzzleContainer.innerHTML = "";
+      const posiciones = [];
+      for (let i = 0; i < size * size; i++) posiciones.push(i);
+      posiciones.sort(() => Math.random() - 0.5);
+
+      const tiles = [];
+      for (let i = 0; i < size * size; i++) {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        if (i === size * size - 1) tile.classList.add("empty");
+        const x = (posiciones[i] % size) * 100;
+        const y = Math.floor(posiciones[i] / size) * 100;
+        tile.style.left = `${(i % size) * 100}px`;
+        tile.style.top = `${Math.floor(i / size) * 100}px`;
+        tile.dataset.index = i;
+        tile.dataset.original = posiciones[i];
+        if (!tile.classList.contains("empty")) {
+          tile.style.backgroundImage = `url('${src}')`;
+          tile.style.backgroundPosition = `-${x}px -${y}px`;
+        }
+        tile.addEventListener("click", () => moverPieza(tile, size));
+        puzzleContainer.appendChild(tile);
+        tiles.push(tile);
+      }
+    }
+
+    function moverPieza(tile, size) {
+      if (tile.classList.contains("empty")) return;
+      const tiles = [...document.querySelectorAll(".tile")];
+      const empty = tiles.find(t => t.classList.contains("empty"));
+      const from = parseInt(tile.dataset.index);
+      const to = parseInt(empty.dataset.index);
+      const dx = Math.abs((from % size) - (to % size));
+      const dy = Math.abs(Math.floor(from / size) - Math.floor(to / size));
+      if ((dx + dy) === 1) {
+        const tempLeft = tile.style.left;
+        const tempTop = tile.style.top;
+        tile.style.left = empty.style.left;
+        tile.style.top = empty.style.top;
+        empty.style.left = tempLeft;
+        empty.style.top = tempTop;
+        [tile.dataset.index, empty.dataset.index] = [empty.dataset.index, tile.dataset.index];
+      }
+    }
+
+    function iniciarCronometro() {
+      const interval = setInterval(() => {
+        const minutos = Math.floor(tiempoRestante / 60);
+        const segundos = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo restante: ${minutos}:${segundos < 10 ? '0' + segundos : segundos}`;
+        if (tiempoRestante <= 0) {
+          clearInterval(interval);
+          ayudaBtn.style.display = "block"; // Mostrar el botón de ayuda
+          mensajeAyuda.style.display = "block"; // Mostrar mensaje de ayuda
+        } else {
+          tiempoRestante--;
+        }
+      }, 1000);
+    }
+
+    ayudaBtn.addEventListener("click", () => {
+      puzzleContainer.style.display = "none";
+      const imagenCompleta = document.createElement("img");
+      imagenCompleta.src = "imagen.jpg";
+      imagenCompleta.alt = "Imagen Completa";
+      imagenCompleta.style.width = "300px"; // Ajusta el tamaño si es necesario
+      puzzleContainer.parentNode.appendChild(imagenCompleta);
+      ayudaBtn.style.display = "none"; // Ocultar el botón de ayuda
+      mensajeAyuda.style.display = "none"; // Ocultar mensaje de ayuda
+      carruselBtn.style.display = "block"; // Mostrar botón Carrusel de fotos
+    });
+
+    carruselBtn.addEventListener("click", () => {
+      recuadroFotos.style.display = "block"; // Mostrar recuadro de fotos
+    });
+  </script>
+</body>
+</html>
